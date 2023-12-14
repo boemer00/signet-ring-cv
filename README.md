@@ -27,6 +27,8 @@ To train the model, run:
 
 `python src/trainer.py`
 
+## Running Tests
+To run tests for this project, navigate to the project directory and activate a virtual environment (recommended). Use the pytest command to execute tests. For detailed output, use `pytest -v`. If using *pytest-cov* for test coverage, view the report with `pytest --cov=src`
 
 ## Model Architecture and Training
 
