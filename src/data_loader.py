@@ -1,5 +1,9 @@
 import os
 import pandas as pd
+from sklearn.model_selection import train_test_split
+
+# remember to train, test split if you are training a new model
+# I have included sklearn's method
 
 def load_image_paths(base_dir, sub_dirs, file_ext='.jpeg'):
     """
@@ -22,7 +26,6 @@ def load_image_paths(base_dir, sub_dirs, file_ext='.jpeg'):
         all_images.append(df)
 
     return pd.concat(all_images, ignore_index=True) if all_images else pd.DataFrame(columns=['image_path', 'label'])
-
 
 def main():
     # base directory for images, relative to the project root
