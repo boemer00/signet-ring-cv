@@ -38,7 +38,7 @@ def train_model():
                     callbacks=[checkpoint, tensorboard])
 
     # save the final model
-    model_save_path = os.path.join(project_root, 'models', 'saved_model', 'signet_ring_model.h5')
+    model_save_path = os.path.join(project_root, 'models', 'saved_model', 'signet_ring_model.keras')
     model.model.save(model_save_path)
     print('model trained and saved 🙌')
 
