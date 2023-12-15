@@ -13,7 +13,7 @@ The dataset includes:
 
 Each image is 2000x2000 pixels, sourced from gastric mucosa and intestine tissues, stained with hematoxylin and eosin, and scanned at X40 magnification. While the original dataset includes annotated information, this project does not require such information.
 
-[.](docs/signet_ring_computer_vision_model.png)
+![.](docs/signet_ring_computer_vision_model.png)
 
 ## Installation
 To set up the project environment:
