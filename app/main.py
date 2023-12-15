@@ -5,22 +5,25 @@ import shutil
 from src.predictor import SignetRingPredictor
 
 app = FastAPI()
-model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'saved_models', 'signet_ring_model.h5')
+model_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'saved_model', 'signet_ring_model.keras')
+
 predictor = SignetRingPredictor(model_path)
 
 @app.post("/predict/")
 async def create_upload_file(file: UploadFile = File(...)):
     try:
-        # save uploaded file to disk
         with open('temp_image.jpeg', 'wb') as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        # make prediction
         prediction = predictor.predict('temp_image.jpeg')
-        os.remove('temp_image.jpeg')  # remove the saved image after prediction
+        os.remove('temp_image.jpeg')
 
-        return JSONResponse(content={'prediction': prediction[0]})
+        # convert np array to a standard float
+        prediction_value = float(prediction[0])
+
+        return JSONResponse(content={'prediction': prediction_value})
     except Exception as e:
+        print(f"Error: {e}")
         return JSONResponse(status_code=500, content={'message': f'Error during prediction: {str(e)}'})
 
 if __name__ == "__main__":

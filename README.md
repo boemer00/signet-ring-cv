@@ -13,6 +13,8 @@ The dataset includes:
 
 Each image is 2000x2000 pixels, sourced from gastric mucosa and intestine tissues, stained with hematoxylin and eosin, and scanned at X40 magnification. While the original dataset includes annotated information, this project does not require such information.
 
+[.](docs/signet_ring_computer_vision_model.png)
+
 ## Installation
 To set up the project environment:
 
@@ -23,26 +25,50 @@ To set up the project environment:
 `pip install -r requirements.txt`
 
 ## Usage
-To train the model, run:
+
+### Training the Model
+
+To train the model, execute the following command:
 
 `python src/trainer.py`
+
+This script uses the model in `src/trainer.py` and saves the trained model for future use.
+
+### Making Predictions Using FastAPI
+
+This project also includes a FastAPI application for deploying the trained model as a web service, which allows users to upload images and receive predictions.
+
+#### Starting the FastAPI Server
+
+To start the FastAPI server, run:
+
+`uvicorn app.main:app --reload`
+
+This command will launch the server, making the API accessible at `http://127.0.0.1:8000`. The `--reload` flag is useful during development as it automatically reloads the server when code changes are made.
+
+#### Using the Prediction Endpoint
+
+Once the server is running, you can make predictions by sending image files to the `/predict/` endpoint. This can be done using the Swagger UI:
+
+1. Navigate to `http://127.0.0.1:8000/docs` in your web browser.
+2. Locate the `/predict/` endpoint and use the interactive UI to upload an image file.
+3. Submit the request, and the API will return the model's prediction for the uploaded image.
+
+The FastAPI application uses the `SignetRingPredictor` class from `src/predictor.py` for processing the image and generating predictions.
+
 
 ## Running Tests
 To run tests for this project, navigate to the project directory and activate a virtual environment (recommended). Use the pytest command to execute tests. For detailed output, use `pytest -v`. If using *pytest-cov* for test coverage, view the report with `pytest --cov=src`
 
 ## Model Architecture and Training
 
-The classification model is built on the VGG19 architecture, a deep convolutional network known for its efficacy in image recognition tasks. This project uses VGG19 as a base model and it includes the following customisations:
+The classification model is built on the VGG19 architecture, with specific customizations for signet ring cell classification. The model includes a `SignetRingPredictor` class, which encapsulates the model's loading and prediction logic, making it seamlessly integrable with FastAPI for deployment.
 
-- **Base Model**: VGG19 pre-trained on ImageNet, without the top layer, to leverage pre-existing feature maps.
-- **Global Average Pooling**: to reduce dimensionality and summarise features globally.
-- **Dense Layer**: a fully connected layer with 512 neurons and ReLU activation, including an L2 regulariser for weight decay to reduce overfitting.
-- **Dropout**: to further prevent overfitting, a dropout rate of 0.5 is applied.
-- **Output Layer**: a single neuron with a sigmoid activation function to output the probability of the presence of signet ring cells.
+- **Base Model**: VGG19 pre-trained on ImageNet, without the top layer.
+- **Custom Layers**: Global Average Pooling, Dense, Dropout, and Output layers tailored for binary classification.
+- **Compilation**: Compiled with the Adam optimizer, binary cross-entropy loss, and includes accuracy and recall metrics.
 
-The model is compiled with the Adam optimiser and a learning rate of 0.001, using binary cross-entropy as the loss function. It includes accuracy and recall metrics to track performance during training.
-
-Training is conducted over 50 epochs with real-time data augmentation and validation using respective data generators. The model file is inside `src/trainer.py`.
+The model's architecture and training details are elaborated in `src/trainer.py`. The `SignetRingPredictor` class, which you can use for predictions--for more details see `src/predictor.py`.
 
 ## Results and Evaluation
 
