@@ -74,11 +74,17 @@ The model's architecture and training details are elaborated in `src/trainer.py`
 
 The evaluation of the classification model focuses on the same three metrics established in the paper:
 
-- **Recall**: The model is designed to prioritise recall, ensuring that the rate of missed signet ring cells (false negatives) is above the minimum acceptable threshold of 20%. Recall is crucial for medical applications where the cost of missing positive cases is high.
+- **Recall**: The model is designed to prioritise recall, ensuring that the rate of missed signet ring cells (false negatives). While the the minimum acceptable threshold of 20% in in the paper, this current model demonstrated a **recall rate of 75%**. Recall is crucial for medical applications where the cost of missing positive cases is high.
 
-- **Normal Region FP (FPNormal)**: This metric measures the average number of false positives per image in normal (non-cancerous) regions, providing insight into the specificity of the model. A lower FPNormal value indicates a model with better specificity, reducing the likelihood of false alarms in clinical practice.
+- **Normal Region FP (FPNormal)**: This metric measures the average number of false positives per image in normal (non-cancerous) regions. This project achieved **FPNormal = 11.0** which indicates that, on average, the model incorrectly identifies 11 regions per image as cancerous when they are, in fact, normal. In a clinical setting, a low FPNormal is preferred, as it means fewer false alarms.
 
-- **Free-response ROC (FROC)**: The FROC curve is a plot of the true positive rate against the average number of false positives per image. It is a variantion of the well-established ROC curve. This metric shows the model's ability to maintain a balance between sensitivity (*aka* recall) and the false positive rate across different thresholds.
+- **Free-response ROC (FROC)**: The FROC curve is a plot of the true positive rate against the average number of false positives per image. This metric shows the model's ability to maintain a balance between sensitivity (*aka* recall) and the false positive rate across different thresholds. Below is a fixed levels of FPPI:
+  - Sensitivity at 1 FPPI: 0.45
+  - Sensitivity at 2 FPPI: 0.45
+  - Sensitivity at 4 FPPI: 0.75
+  - Sensitivity at 5 FPPI: 0.75
+
+  Sensitivity at 5 FPPI (75%) indicates that the model's threshold to a level where it is allowed to make, on average, 5 false positive detections per image, it will correctly identify 75% of the true positive cases (actual disease presence). However, in a clinical setting, determining an acceptable FPPI level depends on various factors.
 
 ## Citation
 Da Q, Huang X, Li Z, et al. [DigestPath: a Benchmark Dataset with Challenge Review for the
