@@ -86,6 +86,14 @@ The evaluation of the classification model focuses on the same three metrics est
 
   Sensitivity at 5 FPPI (75%) indicates that the model's threshold to a level where it is allowed to make, on average, 5 false positive detections per image, it will correctly identify 75% of the true positive cases (actual disease presence). However, in a clinical setting, determining an acceptable FPPI level depends on various factors.
 
+## Areas of Improvement
+
+- The current model would benefit from a larger training set to handle a wider staining variability. While hematoxylin and eosin staining aids the detection process, differenr lab protocals or the age of the chemical might affect colour intensity. Therefore, future versions should consider including more images from different labs as well as a more stain-specific tuning.
+
+- Creating a standard protocol on the handling of WSI for computer vision models could improve image quality due to factors like uneven lighting or blur. Improper handling of WSI can hinder the model's ability to accurately analyse the image.
+
+Overall, computer vision models in histopathology would benefit from quality and consistency of improve processes.
+
 ## Citation
 Da Q, Huang X, Li Z, et al. [DigestPath: a Benchmark Dataset with Challenge Review for the
 Pathological Detection and Segmentation of Digestive-System](https://doi.org/10.1016/j.media.2022.102485)[J].
