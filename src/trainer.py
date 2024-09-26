@@ -7,7 +7,6 @@ from src.preprocessing import Preprocessing
 from models.model_architecture import SignetRingModel
 from keras.callbacks import ModelCheckpoint, TensorBoard
 
-# random seed for reproducibility
 random_seed = 42
 np.random.seed(random_seed)
 random.seed(random_seed)
